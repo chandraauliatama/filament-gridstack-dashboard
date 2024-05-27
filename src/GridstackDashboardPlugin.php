@@ -50,8 +50,7 @@ class GridstackDashboardPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $page = $this->registerPage ? [Dashboard::class] : [];
-        $panel
-            ->pages($page);
+        $panel->pages($page);
     }
 
     public function registerPage(bool $registerPage): static
