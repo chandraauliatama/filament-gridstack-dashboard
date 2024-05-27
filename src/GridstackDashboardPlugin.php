@@ -13,6 +13,8 @@ class GridstackDashboardPlugin implements Plugin
 {
     use EvaluatesClosures;
 
+    protected bool|Closure|null $registerPage = true;
+
     protected string|Closure|null $navigationGroup = null;
 
     protected string|Closure|null $navigationIcon = null;
@@ -47,10 +49,16 @@ class GridstackDashboardPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        $page = $this->registerPage ? [Dashboard::class] : [];
         $panel
-            ->pages([
-                Dashboard::class,
-            ]);
+            ->pages($page);
+    }
+
+    public function registerPage(bool $registerPage): static
+    {
+        $this->registerPage = $registerPage;
+
+        return $this;
     }
 
     public function settingsPath(string|Closure $path): static
