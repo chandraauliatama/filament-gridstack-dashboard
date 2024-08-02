@@ -3,6 +3,10 @@ import {GridStack} from 'gridstack';
 export default function gridStackDashboard({
                                                columns = 12,
                                                rows = 0,
+                                               float = true,
+                                               disableResize = false,
+                                               disableDrag = false,
+                                               resizable = 'se'
                                            }) {
     return {
         grid: null,
@@ -20,7 +24,13 @@ export default function gridStackDashboard({
                 cellHeight: 80,
                 column: columns,
                 row: rows,
+                float: float,
+                disableDrag: disableDrag,
+                disableResize: disableResize,
                 acceptWidgets: true,
+                resizable: {
+                    handles: resizable
+                },
                 removable: '#trash',
                 alwaysShowResizeHandle: true,
                 disableOneColumnMode: true,

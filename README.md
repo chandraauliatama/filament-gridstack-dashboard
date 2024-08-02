@@ -1,4 +1,3 @@
-
 ![invaders-xx-gridstack-dashboard](https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/7b94f470-9e83-4cc5-95af-e5794db76feb)
 
 # Create and manage filament Dashboards using gridstack js
@@ -71,6 +70,8 @@ php artisan vendor:publish --tag="filament-gridstack-dashboard-views"
 
 ## Usage
 
+All functions used to configure the plugin can have a closure as argument.
+
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
 
@@ -129,7 +130,69 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-You can configure the navigationIcon, the navigationGroup and the navigationSort
+You can enable/disable floating widgets (default: true).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->float(false),
+        ])
+}
+```
+
+You can enable/disable dragging widgets (default: false).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->disableDrag(true),
+        ])
+}
+```
+
+You can enable/disable resizing widgets (default: false).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->disableResize(true),
+        ])
+}
+```
+
+You can specify resizing handles position of widgets. It can be any combination of n,ne,e,se,s,sw,w,nw or all (
+default: 'se').
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->resizable('all'),
+        ])
+}
+```
+
+You can configure the navigationIcon, the navigationGroup, the navigationLabel, the navigationSort, canAccess and
+shouldRegisterNavigation
 
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
@@ -141,6 +204,9 @@ public function panel(Panel $panel): Panel
             GridstackDashboardPlugin::make()
                 ->navigationIcon('heroicon-o-chart-bar')
                 ->navigationGroup('Admin')
+                ->shouldRegisterNavigation(false)
+                ->canAccess(fn() => auth()->id()===1)
+                ->navigationLabel('Dashboard')
                 ->navigationSort(1),
         ])
 }

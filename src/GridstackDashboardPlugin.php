@@ -25,9 +25,23 @@ class GridstackDashboardPlugin implements Plugin
 
     protected int|Closure|null $navigationSort = -200;
 
-    protected int|Closure|null $columns = 12;
+    protected int|Closure $columns = 12;
 
-    protected int|Closure|null $rows = 0;
+    protected int|Closure $rows = 0;
+
+    protected bool|Closure $float = true;
+
+    protected bool|Closure $disableDrag = false;
+
+    protected bool|Closure $disableResize = false;
+
+    protected bool|Closure $canAccess = true;
+
+    protected bool|Closure $shouldRegisterNavigation = true;
+
+    protected string|Closure $resizable = 'se';
+
+    protected string|Closure|null $navigationLabel = null;
 
     public static function make(): static
     {
@@ -88,6 +102,55 @@ class GridstackDashboardPlugin implements Plugin
         return $this;
     }
 
+    public function float(bool|Closure $float): static
+    {
+        $this->float = $float;
+
+        return $this;
+    }
+
+    public function disableDrag(bool|Closure $disableDrag = true): static
+    {
+        $this->disableDrag = $disableDrag;
+
+        return $this;
+    }
+
+    public function disableResize(bool|Closure $disableResize = true): static
+    {
+        $this->disableResize = $disableResize;
+
+        return $this;
+    }
+
+    public function resizable(string|Closure $resizable): static
+    {
+        $this->resizable = $resizable;
+
+        return $this;
+    }
+
+    public function canAccess(bool|Closure $canAccess = true): static
+    {
+        $this->canAccess = $canAccess;
+
+        return $this;
+    }
+
+    public function shouldRegisterNavigation(bool|Closure $shouldRegisterNavigation = true): static
+    {
+        $this->shouldRegisterNavigation = $shouldRegisterNavigation;
+
+        return $this;
+    }
+
+    public function navigationLabel(string|Closure $navigationLabel): static
+    {
+        $this->navigationLabel = $navigationLabel;
+
+        return $this;
+    }
+
     public function navigationSort(int|Closure $navigationSort): static
     {
         $this->navigationSort = $navigationSort;
@@ -119,6 +182,11 @@ class GridstackDashboardPlugin implements Plugin
         return $this->evaluate($this->defaultGrid);
     }
 
+    public function getNavigationLabel(): ?string
+    {
+        return $this->evaluate($this->navigationLabel);
+    }
+
     public function getNavigationSort(): int
     {
         return $this->evaluate($this->navigationSort);
@@ -142,6 +210,36 @@ class GridstackDashboardPlugin implements Plugin
     public function getRows(): int
     {
         return $this->evaluate($this->rows);
+    }
+
+    public function getFloat(): bool
+    {
+        return $this->evaluate($this->float);
+    }
+
+    public function getResizable(): ?string
+    {
+        return $this->evaluate($this->resizable);
+    }
+
+    public function getDisableDrag(): ?bool
+    {
+        return $this->evaluate($this->disableDrag);
+    }
+
+    public function getCanAccess(): ?bool
+    {
+        return $this->evaluate($this->canAccess);
+    }
+
+    public function getShouldRegisterNavigation(): ?bool
+    {
+        return $this->evaluate($this->shouldRegisterNavigation);
+    }
+
+    public function getDisableResize(): ?bool
+    {
+        return $this->evaluate($this->disableResize);
     }
 
     public function boot(Panel $panel): void
